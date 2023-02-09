@@ -1,5 +1,17 @@
 <?php
 include"function/index.php";
+session_start();
+
+echo $_SESSION['userName'];
+
+if($_SESSION['status'] == 'invalid' || empty($_SESSION['status'])){
+    $_SESSION['status'] ='invalid';
+
+    echo"<script>window.location.href='Login.php'</script>";
+
+}
+
+
 $sort = "DESC";
 $column = "first_name";
 
@@ -43,6 +55,9 @@ $sqlMember = mysqli_query($con,$queryMember) or die(connect_error);
         </div>
         <form action="pdf.php" method="post">
         <input type="submit" class="btn  btn-primary btn-sm" name="exportTopdf" value="Download PDF">
+        </form>
+        <form action="Logout.php" method="post">
+        <input type="submit" class="btn  btn-primary btn-sm" name="Logout" value="Logout">
         </form>
         <table class="table box2">
             <thead>
