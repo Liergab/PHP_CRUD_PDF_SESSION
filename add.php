@@ -1,3 +1,20 @@
+<?php
+session_start();
+if($_SESSION['status'] == 'invalid' || empty($_SESSION['status'] )){
+
+    $_SESSION['status'] = 'invalid';
+
+    echo"<script>window.location.href='Login.php'</script>";
+}
+
+if($_SESSION['status'] == 'valid'){
+    $_SESSION['status'] = 'valid';
+
+    echo"<script>window.location.href='table.php'</script>";
+
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
