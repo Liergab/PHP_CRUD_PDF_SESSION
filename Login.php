@@ -1,27 +1,40 @@
 <?php
 include"function/index.php";
+session_start();
 
-if(isset($_POST['login'])){
+if($_SESSION['status'] == 'invalid' || empty($_SESSION['status'])){
+    // set default invalid
+    $_SESSION['status']='invalid';
+}
+
+if($_SESSION['status'] =='valid'){
+    echo"<script>window.location.href='table.php'</script>";
+}
+
+if (isset($_POST['login'])){
     $userName = trim($_POST['userName']);
     $passWord = trim($_POST['passWord']);
 
     if(empty($userName) || empty($passWord)){
-        echo"<script>alert('Please fill up all fields!')</script>";
+        echo"<script>alert('Please fill all fields!')</script>";
     }else{
-        $queryvalidation = "SELECT * FROM  account WHERE userName = '$userName'   AND passWord='$passWord'";
+        $queryvalidation ="SELECT * FROM account WHERE userName = '$userName' AND passWord = '$passWord'";
         $sqlvalidation = $con->query($queryvalidation);
+        $resvalidate = $sqlvalidation->fetch_assoc();
 
         if(mysqli_num_rows($sqlvalidation) > 0){
+            $_SESSION['status'] = 'valid';
+            $_SESSION['userName'] = $resvalidate['userName'];
             echo"<script>window.location.href='table.php'</script>";
+
         }else{
-            echo"<script>alert('invalid credentials!')</script>";
+            $_SESSION['status'] = 'invalid';
+            echo"<script>alert('Invalid Credentials!')</script>";
         }
-
-
     }
 
-
 }
+
 ?>
 
 
